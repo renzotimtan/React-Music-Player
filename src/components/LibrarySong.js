@@ -1,16 +1,15 @@
-const LibrarySong = ({ song, setCurrentSong, audioRef, isPlaying, songs, currentSong, setSongs}) => {
+const LibrarySong = ({
+  song,
+  setCurrentSong,
+  audioRef,
+  isPlaying,
+  songs,
+  currentSong,
+  setSongs,
+}) => {
   const songSelectHandler = async () => {
     await setCurrentSong(song);
     if (isPlaying) audioRef.current.play();
-    // Add active state
-    const newSongs = songs.map((s) => {
-      if (s.id === currentSong.id) {
-        return { ...s, active: true };
-      } else {
-        return { ...s, active: false };
-      }
-    });
-    setSongs(newSongs);
   };
 
   return (

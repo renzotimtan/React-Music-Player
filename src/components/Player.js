@@ -5,6 +5,7 @@ import {
   faAngleRight,
   faPause,
 } from "@fortawesome/free-solid-svg-icons";
+import { useEffect } from "react";
 
 const Player = ({
   isPlaying,
@@ -17,16 +18,17 @@ const Player = ({
   setCurrentSong,
   setSongs,
 }) => {
-  const activeLibraryHandler = (nextPrev) => {
+  useEffect(() => {
     const newSongs = songs.map((s) => {
-      if (s.id === nextPrev.id) {
+      if (s.id === currentSong.id) {
         return { ...s, active: true };
       } else {
         return { ...s, active: false };
       }
     });
     setSongs(newSongs);
-  };
+    // eslint-disable-next-line
+  }, [currentSong]);
 
   // Event handler
   const playSongHandler = () => {
@@ -47,14 +49,10 @@ const Player = ({
     let currentIndex = songs.findIndex((song) => song.id === currentSong.id);
     if (direction === "skip-forward") {
       await setCurrentSong(songs[(currentIndex + 1) % songs.length]);
-      activeLibraryHandler(songs[(currentIndex + 1) % songs.length]);
     }
 
     if (direction === "skip-back") {
       await setCurrentSong(
-        songs[(currentIndex - 1) % songs.length] || songs[songs.length - 1]
-      );
-      activeLibraryHandler(
         songs[(currentIndex - 1) % songs.length] || songs[songs.length - 1]
       );
     }
